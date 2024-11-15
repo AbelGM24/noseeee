@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .back {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, #ffccff, #ff99cc);
+            animation-name: backdiv;
+            animation-duration: 3500ms;
+            animation-iteration-count: infinite;
+        }
+
+        .envelope {
+            width: 450px;
+            height: 320px;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            position: relative;
+            perspective: 1000px;
+            margin: 0 auto;
+            animation-name: beat;
+            animation-duration: 3500ms;
+            animation-iteration-count: infinite;
+            transform: scale(1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flap {
+            width: 100%;
+            height: 50%;
+            background-color: #d0d0d0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 5px 5px 0 0;
+            transform-origin: top;
+            transition: transform 0.5s;
+        }
+
+        .body {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        .note {
+            width: 100%;
+            height: 100%;
+            background-color: #84E291;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .envelope.open .flap {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope.open .note {
+            opacity: 1;
+        }
+
+        .bday {
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(255, 105, 180, 0.5), 0 6px 6px rgba(255, 105, 180, 0.3);
+            font-size: 18px;
+            font-weight: bold;
+            color: #4a004d;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+        }
+
+        button {
+            background-color: #ff66b3;
+            display: block;
+            margin: 30px auto;
+            padding: 15px 30px;
+            color: white;
+            border: none;
+            font-size: 20px;
+            font-family: 'Pacifico', cursive;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #ff3385;
+            transform: scale(1.05);
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .elements {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .stamp {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+
+        .stamp.hidden {
+            opacity: 0;
+        }
+
+        @keyframes backdiv {
+            50% {
+                background: linear-gradient(to bottom right, #ffb3ff, #ff66b3);
+            }
+        }
+
+        @keyframes beat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(0.9);
+            }
+        }
+
+    </style>
+    <title>NOVIEMBRE 14</title>
+</head>
+<body>
+    <div class="back">
+        <div class="bday">BUENAS NOCHES AMIEEE. <br> MOCO <br> Se que no es casi nada pero algo es algo </div>
+
+        <div class="elements">
+            <div class="envelope" id="envelope">
+                <div class="stamp">
+                    <img src="spiderman.gif" alt="Spiderman GIF">
+                </div>
+                <div class="flap"></div>
+                <div class="body">
+                    <div class="note" id="note">
+                        <p>¡Hola! Hoy dia es eso de regalar coronitas y no quisiera que no tengas nada, no es mucho pero algo es algo, pasalo bonito hoy ❤</p>
+                        <img src="captura2.PNG" alt="Imagen de captura2" style="width: 100%; max-width: 200px; margin-top: 20px;">
+                    </div>
+                </div>
+            </div>
+            <button id="openButton"><span>Abrir</span></button>
+        </div>
+    </div>
+
+    <!-- Elemento de audio -->
+    <audio id="audio" preload="auto" loop>
+        <source src="bellaladrona.mp3" type="audio/mp3">
+        Tu navegador no soporta la reproducción de audio.
+    </audio>
+
+    <script>
+        const audio = document.getElementById('audio');  // Obtén el elemento de audio
+        const button = document.getElementById('openButton');
+        const envelope = document.getElementById('envelope');
+        const stamp = document.querySelector('.stamp');
+
+        // Establece el volumen al 60%
+        audio.volume = 0.6;
+
+        // Escucha el evento de clic en el botón
+        button.addEventListener('click', function() {
+            envelope.classList.toggle('open');
+            stamp.classList.toggle('hidden');
+
+            // Verifica si la música ya está sonando, si no está sonando, la reproduce
+            if (audio.paused) {
+                audio.play();  // Reproduce la música si está pausada
+                button.innerText = 'Cerrar';
+            } else {
+                // Si la música está sonando, no la detiene (se queda reproduciéndose)
+                button.innerText = 'Abrir';
+            }
+        });
+    </script>
+</body>
+</html>
